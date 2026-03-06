@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Leave</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">Leave Management</div>
+        <div class="nav-menu">
+            <a href="{{ url_for('employee.dashboard') }}" class="btn btn-sm">Dashboard</a>
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-sm btn-secondary">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="form-container">
+            <h1>Request Leave</h1>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <div class="balance-info">
+                <p>Vacation Balance: <strong>{{ user.vacation_balance }} days</strong></p>
+                <p>Sick Leave Balance: <strong>{{ user.sick_balance }} days</strong></p>
+            </div>
+
+            <form id="leaveRequestForm" method="POST">
+                <div class="form-group">
+                    <label>Leave Type</label>
+                    <select name="leave_type" required>
+                        <option value="">Select Type</option>
+                        <option value="Vacation">Vacation</option>
+                        <option value="Sick">Sick Leave</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="date" name="start_date" required>
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input type="date" name="end_date" required>
+                </div>
+                <div class="form-group">
+                    <label>Reason</label>
+                    <textarea name="reason" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Request</button>
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
